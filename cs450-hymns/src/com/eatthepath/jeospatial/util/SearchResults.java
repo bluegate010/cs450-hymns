@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.ArrayList;
 
-import com.eatthepath.jeospatial.GeospatialPoint;
+import com.eatthepath.jeospatial.SpatialPoint;
 import com.eatthepath.jeospatial.SearchCriteria;
 
 /**
@@ -33,10 +33,10 @@ import com.eatthepath.jeospatial.SearchCriteria;
  * 
  * @author <a href="mailto:jon.chambers@gmail.com">Jon Chambers</a>
  */
-public class SearchResults<E extends GeospatialPoint> extends PriorityQueue<E> {
+public class SearchResults<E extends SpatialPoint> extends PriorityQueue<E> {
     private static final long serialVersionUID = 1L;
     
-    private final SimpleGeospatialPoint queryPoint;
+    private final SimpleSpatialPoint queryPoint;
     private final int maxSize;
     private final double maxDistance;
     private final SearchCriteria<E> criteria;
@@ -50,7 +50,7 @@ public class SearchResults<E extends GeospatialPoint> extends PriorityQueue<E> {
      * @param maxSize
      *            the maximum number of points this result set may contain
      */
-    public SearchResults(GeospatialPoint queryPoint, int maxSize) {
+    public SearchResults(SpatialPoint queryPoint, int maxSize) {
         this(queryPoint, maxSize, Double.POSITIVE_INFINITY, null);
     }
     
@@ -67,7 +67,7 @@ public class SearchResults<E extends GeospatialPoint> extends PriorityQueue<E> {
      *            the maximum allowable distance from the query point; points
      *            more distant than this threshold will always be rejected
      */
-    public SearchResults(GeospatialPoint queryPoint, int maxSize, double maxDistance) {
+    public SearchResults(SpatialPoint queryPoint, int maxSize, double maxDistance) {
         this(queryPoint, maxSize, maxDistance, null);
     }
     
@@ -84,7 +84,7 @@ public class SearchResults<E extends GeospatialPoint> extends PriorityQueue<E> {
      *            result set; points that do not meet the search criteria will
      *            always be rejected
      */
-    public SearchResults(GeospatialPoint queryPoint, int maxSize, SearchCriteria<E> criteria) {
+    public SearchResults(SpatialPoint queryPoint, int maxSize, SearchCriteria<E> criteria) {
         this(queryPoint, maxSize, Double.POSITIVE_INFINITY, criteria);
     }
     
@@ -105,10 +105,10 @@ public class SearchResults<E extends GeospatialPoint> extends PriorityQueue<E> {
      *            result set; points that do not meet the search criteria will
      *            always be rejected
      */
-    public SearchResults(GeospatialPoint queryPoint, int maxSize, double maxDistance, SearchCriteria<E> criteria) {
+    public SearchResults(SpatialPoint queryPoint, int maxSize, double maxDistance, SearchCriteria<E> criteria) {
         super(maxSize, java.util.Collections.reverseOrder(new GeospatialDistanceComparator<E>(queryPoint)));
         
-        this.queryPoint = new SimpleGeospatialPoint(queryPoint);
+        this.queryPoint = new SimpleSpatialPoint(queryPoint);
         this.maxSize = maxSize;
         this.maxDistance = maxDistance;
         this.criteria = criteria;
@@ -174,7 +174,7 @@ public class SearchResults<E extends GeospatialPoint> extends PriorityQueue<E> {
      * @throws IllegalArgumentException
      *             if the specified collection is this result set
      * 
-     * @see SearchResults#add(GeospatialPoint)
+     * @see SearchResults#add(SpatialPoint)
      */
     @Override
     public boolean addAll(Collection<? extends E> points) {

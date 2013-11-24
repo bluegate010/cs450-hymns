@@ -2,7 +2,7 @@ package com.eatthepath.jeospatial.util;
 
 import java.util.Comparator;
 
-import com.eatthepath.jeospatial.GeospatialPoint;
+import com.eatthepath.jeospatial.SpatialPoint;
 
 /**
  * <p>A comparator that sorts geospatial points in order of increasing distance
@@ -10,8 +10,8 @@ import com.eatthepath.jeospatial.GeospatialPoint;
  * 
  * @author <a href="mailto:jon.chambers@gmail.com">Jon Chambers</a>
  */
-public class GeospatialDistanceComparator<T extends GeospatialPoint> implements Comparator<T> {
-	private final SimpleGeospatialPoint origin;
+public class GeospatialDistanceComparator<T extends SpatialPoint> implements Comparator<T> {
+	private final SimpleSpatialPoint origin;
 	
 	/**
 	 * Constructs a new comparator that sorts geospatial points according to
@@ -20,8 +20,8 @@ public class GeospatialDistanceComparator<T extends GeospatialPoint> implements 
 	 * @param origin
 	 *            the point from which to measure other points
 	 */
-	public GeospatialDistanceComparator(GeospatialPoint origin) {
-		this.origin = new SimpleGeospatialPoint(origin);
+	public GeospatialDistanceComparator(SpatialPoint origin) {
+		this.origin = new SimpleSpatialPoint(origin);
 	}
 	
 	/**

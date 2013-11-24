@@ -1,6 +1,6 @@
 /**
  * Provides simple implementations of the
- * {@link com.eatthepath.jeospatial.GeospatialPoint} interface and
+ * {@link com.eatthepath.jeospatial.SpatialPoint} interface and
  * {@code Comparator}s and utility classes for conducting nearest-neighbor
  * searches in {@link com.eatthepath.jeospatial.GeospatialPointDatabase}s.
  */

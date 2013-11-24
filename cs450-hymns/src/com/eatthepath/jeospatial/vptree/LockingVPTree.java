@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import com.eatthepath.jeospatial.GeospatialPoint;
+import com.eatthepath.jeospatial.SpatialPoint;
 import com.eatthepath.jeospatial.SearchCriteria;
 
 /**
@@ -21,7 +21,7 @@ import com.eatthepath.jeospatial.SearchCriteria;
  * 
  * @see ReentrantReadWriteLock
  */
-public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
+public class LockingVPTree<E extends SpatialPoint> extends VPTree<E> {
     private final ReentrantReadWriteLock lock;
     
     /**
@@ -366,7 +366,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbors(com.eatthepath.jeospatial.GeospatialPoint, int)
      */
     @Override
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults) {
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults) {
         this.lock.readLock().lock();
         
         try {
@@ -381,7 +381,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbors(com.eatthepath.jeospatial.GeospatialPoint, int, double)
      */
     @Override
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults, double maxDistance) {
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults, double maxDistance) {
         this.lock.readLock().lock();
         
         try {
@@ -396,7 +396,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbors(com.eatthepath.jeospatial.GeospatialPoint, int, com.eatthepath.jeospatial.SearchCriteria)
      */
     @Override
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults, SearchCriteria<E> searchCriteria) {
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults, SearchCriteria<E> searchCriteria) {
         this.lock.readLock().lock();
         
         try {
@@ -411,7 +411,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbors(com.eatthepath.jeospatial.GeospatialPoint, int, double, com.eatthepath.jeospatial.SearchCriteria)
      */
     @Override
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults, double maxDistance, SearchCriteria<E> searchCriteria) {
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults, double maxDistance, SearchCriteria<E> searchCriteria) {
         this.lock.readLock().lock();
         
         try {
@@ -426,7 +426,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getAllNeighborsWithinDistance(com.eatthepath.jeospatial.GeospatialPoint, double)
      */
     @Override
-    public List<E> getAllNeighborsWithinDistance(GeospatialPoint queryPoint, double maxDistance) {
+    public List<E> getAllNeighborsWithinDistance(SpatialPoint queryPoint, double maxDistance) {
         this.lock.readLock().lock();
         
         try {
@@ -441,7 +441,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getAllNeighborsWithinDistance(com.eatthepath.jeospatial.GeospatialPoint, double, com.eatthepath.jeospatial.SearchCriteria)
      */
     @Override
-    public List<E> getAllNeighborsWithinDistance(GeospatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria) {
+    public List<E> getAllNeighborsWithinDistance(SpatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria) {
         this.lock.readLock().lock();
         
         try {
@@ -456,7 +456,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbor(com.eatthepath.jeospatial.GeospatialPoint)
      */
     @Override
-    public E getNearestNeighbor(GeospatialPoint queryPoint) {
+    public E getNearestNeighbor(SpatialPoint queryPoint) {
         this.lock.readLock().lock();
         
         try {
@@ -471,7 +471,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbor(com.eatthepath.jeospatial.GeospatialPoint, double)
      */
     @Override
-    public E getNearestNeighbor(GeospatialPoint queryPoint, double maxDistance) {
+    public E getNearestNeighbor(SpatialPoint queryPoint, double maxDistance) {
         this.lock.readLock().lock();
         
         try {
@@ -486,7 +486,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbor(com.eatthepath.jeospatial.GeospatialPoint, com.eatthepath.jeospatial.SearchCriteria)
      */
     @Override
-    public E getNearestNeighbor(GeospatialPoint queryPoint, SearchCriteria<E> searchCriteria) {
+    public E getNearestNeighbor(SpatialPoint queryPoint, SearchCriteria<E> searchCriteria) {
         this.lock.readLock().lock();
         
         try {
@@ -501,7 +501,7 @@ public class LockingVPTree<E extends GeospatialPoint> extends VPTree<E> {
      * @see com.eatthepath.jeospatial.vptree.VPTree#getNearestNeighbor(com.eatthepath.jeospatial.GeospatialPoint, double, com.eatthepath.jeospatial.SearchCriteria)
      */
     @Override
-    public E getNearestNeighbor(GeospatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria) {
+    public E getNearestNeighbor(SpatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria) {
         this.lock.readLock().lock();
         
         try {

@@ -11,13 +11,13 @@ package com.eatthepath.jeospatial;
  * 
  * @author <a href="mailto:jon.chambers@gmail.com">Jon Chambers</a>
  * 
- * @see GeospatialPointDatabase#getNearestNeighbor(GeospatialPoint, SearchCriteria)
- * @see GeospatialPointDatabase#getNearestNeighbor(GeospatialPoint, double, SearchCriteria)
- * @see GeospatialPointDatabase#getNearestNeighbors(GeospatialPoint, int, SearchCriteria)
- * @see GeospatialPointDatabase#getNearestNeighbors(GeospatialPoint, int, double, SearchCriteria)
- * @see GeospatialPointDatabase#getAllNeighborsWithinDistance(GeospatialPoint, double, SearchCriteria)
+ * @see GeospatialPointDatabase#getNearestNeighbor(SpatialPoint, SearchCriteria)
+ * @see GeospatialPointDatabase#getNearestNeighbor(SpatialPoint, double, SearchCriteria)
+ * @see GeospatialPointDatabase#getNearestNeighbors(SpatialPoint, int, SearchCriteria)
+ * @see GeospatialPointDatabase#getNearestNeighbors(SpatialPoint, int, double, SearchCriteria)
+ * @see GeospatialPointDatabase#getAllNeighborsWithinDistance(SpatialPoint, double, SearchCriteria)
  */
-public interface SearchCriteria<T extends GeospatialPoint> {
+public interface SearchCriteria<T extends SpatialPoint> {
     /**
      * Tests whether an individual point matches an arbitrary set of
      * supplementary criteria. If the point matches and this method returns

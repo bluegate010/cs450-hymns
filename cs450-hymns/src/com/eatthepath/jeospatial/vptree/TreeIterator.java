@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.ArrayList;
 
-import com.eatthepath.jeospatial.GeospatialPoint;
+import com.eatthepath.jeospatial.SpatialPoint;
 
-public class TreeIterator<E extends GeospatialPoint> implements Iterator<E> {
+public class TreeIterator<E extends SpatialPoint> implements Iterator<E> {
     private ArrayList<VPTree<E>.VPNode<E>> leafNodes;
     
     private Iterator<VPTree<E>.VPNode<E>> leafIterator;

@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * @author <a href="mailto:jon.chambers@gmail.com">Jon Chambers</a>
  */
-public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Collection<E> {
+public interface GeospatialPointDatabase<E extends SpatialPoint> extends Collection<E> {
     /**
      * Returns the nearest neighbor to the given query point. The nearest
      * neighbor is the point with the shortest distance to the query point; if
@@ -22,7 +22,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      * @return the nearest neighbor to the query point or {@code null} if the
      *         database contains no points
      */
-    public E getNearestNeighbor(GeospatialPoint queryPoint);
+    public E getNearestNeighbor(SpatialPoint queryPoint);
     
     /**
      * Returns the nearest neighbor to the given query point so long as the
@@ -41,7 +41,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         database contains no points within {@code maxDistance} meters of
      *         the query point
      */
-    public E getNearestNeighbor(GeospatialPoint queryPoint, double maxDistance);
+    public E getNearestNeighbor(SpatialPoint queryPoint, double maxDistance);
     
     /**
      * Returns the nearest neighbor to the given query point that satisfies the
@@ -60,7 +60,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         database contains no points that satisfy the given search
      *         criteria
      */
-    public E getNearestNeighbor(GeospatialPoint queryPoint, SearchCriteria<E> searchCriteria);
+    public E getNearestNeighbor(SpatialPoint queryPoint, SearchCriteria<E> searchCriteria);
     
     /**
      * Returns the nearest neighbor to the query point that satisfies the given
@@ -81,7 +81,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         points matching the given search criteria were found within
      *         {@code maxDistance} meters of the query point
      */
-    public E getNearestNeighbor(GeospatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria);
+    public E getNearestNeighbor(SpatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria);
     
     /**
      * <p>Returns a list of the nearest neighbors to a given query point. The
@@ -104,7 +104,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      * @return a list of the nearest neighbors to the given query point sorted
      *         by increasing distance from the query point
      */
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults);
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults);
     
     /**
      * <p>Returns a list of the nearest neighbors to a given query point that
@@ -131,7 +131,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         point, of the nearest neighbors to the given query point that
      *         meet the given search criteria
      */
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults, SearchCriteria<E> searchCriteria);
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults, SearchCriteria<E> searchCriteria);
     
     /**
      * <p>Returns a list of the nearest neighbors to a given query point and
@@ -161,7 +161,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         to the given query point; the returned list is sorted in order of
      *         increasing distance from the query point
      */
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults, double maxDistance);
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults, double maxDistance);
     
     /**
      * <p>Returns a list of the nearest neighbors to a given query point and
@@ -194,7 +194,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         point; the returned list is sorted in order of increasing
      *         distance from the query point
      */
-    public List<E> getNearestNeighbors(GeospatialPoint queryPoint, int maxResults, double maxDistance, SearchCriteria<E> searchCriteria);
+    public List<E> getNearestNeighbors(SpatialPoint queryPoint, int maxResults, double maxDistance, SearchCriteria<E> searchCriteria);
     
     /**
      * Returns a list of all points within a given distance to a query point.
@@ -210,7 +210,7 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         point; the returned list is sorted in order of increasing
      *         distance from the query point
      */
-    public List<E> getAllNeighborsWithinDistance(GeospatialPoint queryPoint, double maxDistance);
+    public List<E> getAllNeighborsWithinDistance(SpatialPoint queryPoint, double maxDistance);
     
     /**
      * Returns a list of all points within a given distance to a query point
@@ -230,125 +230,5 @@ public interface GeospatialPointDatabase<E extends GeospatialPoint> extends Coll
      *         that meet the given search criteria; the returned list is sorted
      *         in order of increasing distance from the query point
      */
-    public List<E> getAllNeighborsWithinDistance(GeospatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria);
-    
-    /**
-     * Returns a list of all points in the database within the given bounding
-     * "box." A point is considered to be inside the box if its latitude falls
-     * between the given north and south limits (inclusive) and its longitude
-     * falls between the east and west limits (inclusive). The order of the
-     * returned list is not prescribed.
-     * 
-     * @param west the western limit of the bounding box in degrees
-     * @param east the eastern limit of the bounding box in degrees
-     * @param north the northern limit of the bounding box in degrees 
-     * @param south the southern limit of the bounding box in degrees
-     * 
-     * @return a list of points in the database within the given bounding box
-     * 
-     * @throws IllegalArgumentException
-     *             if the north or south limits fall outside of the range -90 to
-     *             +90 (inclusive) or if the northern limit is south of the
-     *             southern limit (or vice versa)
-     */
-    public List<E> getAllPointsInBoundingBox(double west, double east, double north, double south);
-    
-    /**
-     * Returns a list of all points in the database within the given bounding
-     * "box." A point is considered to be inside the box if its latitude falls
-     * between the given north and south limits (inclusive) and its longitude
-     * falls between the east and west limits (inclusive). The list of returned
-     * points is sorted in order of increasing distance from the given point.
-     * 
-     * @param west
-     *            the western limit of the bounding box in degrees
-     * @param east
-     *            the eastern limit of the bounding box in degrees
-     * @param north
-     *            the northern limit of the bounding box in degrees
-     * @param south
-     *            the southern limit of the bounding box in degrees
-     * @param orderingPoint
-     *            a point to use for sorting the list of results by distance;
-     *            may be {@code null} if no ordering is required
-     * 
-     * @return a list of points in the database within the given bounding box
-     *         sorted in order of increasing distance from the
-     *         {@code orderingPoint}
-     * 
-     * @throws IllegalArgumentException
-     *             if the north or south limits fall outside of the range -90 to
-     *             +90 (inclusive) or if the northern limit is south of the
-     *             southern limit (or vice versa)
-     */
-    public List<E> getAllPointsInBoundingBox(double west, double east, double north, double south,
-            GeospatialPoint orderingPoint);
-    
-    /**
-     * Returns a list of all points in the database within the given bounding
-     * "box" that also satisfy the given search criteria. A point is considered
-     * to be inside the box if its latitude falls between the given north and
-     * south limits (inclusive) and its longitude falls between the east and
-     * west limits (inclusive). The order of the returned list is not
-     * prescribed.
-     * 
-     * @param west
-     *            the western limit of the bounding box in degrees
-     * @param east
-     *            the eastern limit of the bounding box in degrees
-     * @param north
-     *            the northern limit of the bounding box in degrees
-     * @param south
-     *            the southern limit of the bounding box in degrees
-     * @param otherCriteria
-     *            a set of additional search criteria to apply to points that
-     *            lie within the bounding box; may be {@code null} if no
-     *            additional criteria are to be applied
-     * 
-     * @return a list of points in the database within the given bounding box
-     *         that satisfy the given search criteria
-     * 
-     * @throws IllegalArgumentException
-     *             if the north or south limits fall outside of the range -90 to
-     *             +90 (inclusive) or if the northern limit is south of the
-     *             southern limit (or vice versa)
-     */
-    public List<E> getAllPointsInBoundingBox(double west, double east, double north, double south,
-            SearchCriteria<E> otherCriteria);
-    
-    /**
-     * Returns a list of all points in the database within the given bounding
-     * "box" that also satisfy the given search criteria. A point is considered
-     * to be inside the box if its latitude falls between the given north and
-     * south limits (inclusive) and its longitude falls between the east and
-     * west limits (inclusive). The list of returned points is sorted in order
-     * of increasing distance from the given point.
-     * 
-     * @param west
-     *            the western limit of the bounding box in degrees
-     * @param east
-     *            the eastern limit of the bounding box in degrees
-     * @param north
-     *            the northern limit of the bounding box in degrees
-     * @param south
-     *            the southern limit of the bounding box in degrees
-     * @param otherCriteria
-     *            a set of additional search criteria to apply to points that
-     *            lie within the bounding box; may be {@code null} if no
-     *            additional criteria are to be applied
-     * @param orderingPoint
-     *            a point to use for sorting the list of results by distance;
-     *            may be {@code null} if no ordering is required
-     * 
-     * @return a list of points in the database within the given bounding box
-     *         that satisfy the given search criteria sorted in order of
-     *         increasing distance from the {@code orderingPoint}
-     * 
-     * @throws IllegalArgumentException
-     *             if the north or south limits fall outside of the range -90 to
-     *             +90 (inclusive) or if the northern limit is south of the
-     *             southern limit (or vice versa)
-     */
-    public List<E> getAllPointsInBoundingBox(double west, double east, double north, double south,
-            SearchCriteria<E> otherCriteria, GeospatialPoint orderingPoint);
+    public List<E> getAllNeighborsWithinDistance(SpatialPoint queryPoint, double maxDistance, SearchCriteria<E> searchCriteria);
 }
