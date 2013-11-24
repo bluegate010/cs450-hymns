@@ -5,14 +5,17 @@ import java.util.Comparator;
 import com.eatthepath.jeospatial.SpatialPoint;
 
 /**
- * <p>A comparator that sorts geospatial points in order of increasing distance
- * from a given origin point.</p>
+ * <p>
+ * A comparator that sorts geospatial points in order of increasing distance
+ * from a given origin point.
+ * </p>
  * 
  * @author <a href="mailto:jon.chambers@gmail.com">Jon Chambers</a>
  */
-public class GeospatialDistanceComparator<T extends SpatialPoint> implements Comparator<T> {
+public class SpatialDistanceComparator<T extends SpatialPoint> implements
+		Comparator<T> {
 	private final SimpleSpatialPoint origin;
-	
+
 	/**
 	 * Constructs a new comparator that sorts geospatial points according to
 	 * their distance from the given origin point.
@@ -20,10 +23,10 @@ public class GeospatialDistanceComparator<T extends SpatialPoint> implements Com
 	 * @param origin
 	 *            the point from which to measure other points
 	 */
-	public GeospatialDistanceComparator(SpatialPoint origin) {
+	public SpatialDistanceComparator(SpatialPoint origin) {
 		this.origin = new SimpleSpatialPoint(origin);
 	}
-	
+
 	/**
 	 * Compares two geospatial points for order based on their distance from the
 	 * origin point given when this comparator was constructed.
@@ -37,9 +40,13 @@ public class GeospatialDistanceComparator<T extends SpatialPoint> implements Com
 	public int compare(T p1, T p2) {
 		double d1 = this.origin.getDistanceTo(p1);
 		double d2 = this.origin.getDistanceTo(p2);
-		
-		if(d1 < d2) { return -1; }
-		if(d1 > d2) { return 1; }
+
+		if (d1 < d2) {
+			return -1;
+		}
+		if (d1 > d2) {
+			return 1;
+		}
 		return 0;
 	}
 }

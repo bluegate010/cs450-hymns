@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import com.eatthepath.jeospatial.GeospatialPointDatabase;
+import com.eatthepath.jeospatial.SpatialPointDatabase;
 import com.eatthepath.jeospatial.SearchCriteria;
 import com.eatthepath.jeospatial.SpatialPoint;
-import com.eatthepath.jeospatial.util.GeospatialDistanceComparator;
+import com.eatthepath.jeospatial.util.SpatialDistanceComparator;
 import com.eatthepath.jeospatial.util.SearchResults;
 import com.eatthepath.jeospatial.util.SimpleSpatialPoint;
 
@@ -79,8 +79,7 @@ import com.eatthepath.jeospatial.util.SimpleSpatialPoint;
  *      General Metric Spaces". Proceedings of the Fifth Annual ACM-SIAM
  *      Symposium on Discrete Algorithms (SODA). 1993.</a>
  */
-public class VPTree<E extends SpatialPoint> implements
-		GeospatialPointDatabase<E> {
+public class VPTree<E extends SpatialPoint> implements SpatialPointDatabase<E> {
 	/**
 	 * <p>
 	 * {@code VPNodes} are the nodes of a vantage point tree. {@code VPNodes}
@@ -496,7 +495,7 @@ public class VPTree<E extends SpatialPoint> implements
 
 			// TODO Consider optimizing this whole approach to partitioning
 			java.util.Arrays.sort(points, fromIndex, toIndex,
-					new GeospatialDistanceComparator<T>(this.center));
+					new SpatialDistanceComparator<T>(this.center));
 
 			int medianIndex = (fromIndex + toIndex - 1) / 2;
 			double medianDistance = this.center
@@ -1490,8 +1489,8 @@ public class VPTree<E extends SpatialPoint> implements
 		this.root.getAllWithinRange(new SimpleSpatialPoint(queryPoint),
 				maxDistance, searchCriteria, results);
 
-		java.util.Collections.sort(results,
-				new GeospatialDistanceComparator<E>(queryPoint));
+		java.util.Collections.sort(results, new SpatialDistanceComparator<E>(
+				queryPoint));
 
 		return results;
 	}

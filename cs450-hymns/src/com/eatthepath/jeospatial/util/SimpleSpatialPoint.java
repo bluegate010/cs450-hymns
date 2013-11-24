@@ -29,7 +29,7 @@ public class SimpleSpatialPoint implements SpatialPoint {
 	 * @throws IllegalArgumentException
 	 *             if the given latitude is outside of the allowable range
 	 */
-	public SimpleSpatialPoint(String label, double[] coords) {
+	public SimpleSpatialPoint(String label, double... coords) {
 		this.label = label;
 		this.coords = new double[coords.length];
 		System.arraycopy(coords, 0, this.coords, 0, coords.length);
@@ -69,8 +69,15 @@ public class SimpleSpatialPoint implements SpatialPoint {
 	 */
 	@Override
 	public String toString() {
-		return "SimpleSpatialPoint [label=" + label + ", coords="
-				+ coords.toString() + "]";
+		StringBuilder sb = new StringBuilder();
+		sb.append(label);
+		sb.append("\n\t");
+		for (double d : coords) {
+			sb.append(d);
+			sb.append(", ");
+		}
+
+		return sb.substring(0, sb.length() - 2);
 	}
 
 	/**
