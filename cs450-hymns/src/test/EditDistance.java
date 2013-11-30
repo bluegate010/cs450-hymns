@@ -1,5 +1,8 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import editdistance.EditDistanceCalculator;
 
 public class EditDistance {
@@ -19,14 +22,14 @@ public class EditDistance {
 				stringToObjArray(s2)));
 	}
 
-	private static Object[] stringToObjArray(String s) {
+	private static ArrayList<Object> stringToObjArray(String s) {
 		Object[] arr = new Object[s.length()];
 
 		for (int i = 0; i < s.length(); i++) {
 			arr[i] = new Character(s.charAt(i));
 		}
-
-		return arr;
+		
+		return new ArrayList<>(Arrays.asList(arr));
 	}
 
 }
