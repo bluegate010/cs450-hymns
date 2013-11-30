@@ -35,6 +35,10 @@ public class SimpleSpatialPoint implements SpatialPoint {
 		System.arraycopy(coords, 0, this.coords, 0, coords.length);
 	}
 
+	public SimpleSpatialPoint(double... coords) {
+		this("", coords);
+	}
+
 	public SimpleSpatialPoint(SpatialPoint other) {
 		this(other.getLabel(), other.getCoords());
 	}

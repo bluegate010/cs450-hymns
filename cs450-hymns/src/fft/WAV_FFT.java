@@ -10,13 +10,6 @@ public class WAV_FFT {
 	public static final double DEFAULT_SECONDS_PER_FFT = 0.25;
 	public static final double DEFAULT_SECONDS_PER_SHIFT = DEFAULT_SECONDS_PER_FFT;
 
-	public static void main(String[] args) {
-		double[][] ffts = getFFTs("/Users/jandersen/Desktop/cleaned/out.wav");
-
-		System.out.println(ffts.length);
-		System.out.println(ffts[0].length);
-	}
-
 	public static double[][] getFFTs(String wavPath) {
 		return getFFTs(wavPath, DEFAULT_FFT_BIN_COUNT, DEFAULT_SECONDS_PER_FFT,
 				DEFAULT_SECONDS_PER_SHIFT);
