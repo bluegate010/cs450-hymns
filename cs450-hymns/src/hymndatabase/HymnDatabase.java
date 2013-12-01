@@ -15,6 +15,11 @@ public class HymnDatabase {
 	private Map<String, NoteSequence> database;
 	private static Map<String, HymnDatabase> databases = new HashMap<>();
 
+	public static void loadDatabase() {
+		// Just call getDatabase() to get it loaded.
+		getDatabase();
+	}
+
 	public static HymnDatabase getDatabase() {
 		return getDatabase(DEFAULT_HYMN_DATABSE_DIR);
 	}
@@ -56,7 +61,7 @@ public class HymnDatabase {
 			String currentHymnName = entry.getKey();
 			NoteSequence currentSequence = entry.getValue();
 
-			int similarity = currentSequence.compareTo(sampleSequence);
+			int similarity = currentSequence.distanceTo(sampleSequence);
 			if (minSimilarity > similarity) {
 				minSimilarity = similarity;
 				closestHymnName = currentHymnName;

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 public class EditDistanceCalculator {
 
-	private static final int DEFAULT_INDEL_COST = 5;
-	private static final int DEFAULT_SUB_COST = 1;
-	private static final int DEFAULT_MATCH_COST = -3;
-	private static final boolean DEFAULT_IGNORE_EDGE_INDEL = false;
+	private static final boolean PRINT_GRID = false;
+
+	private static final int DEFAULT_INDEL_COST = 1;
+	private static final int DEFAULT_SUB_COST = 2;
+	private static final int DEFAULT_MATCH_COST = 0;
+	private static final boolean DEFAULT_IGNORE_EDGE_INDEL = true;
 
 	private int indelCost;
 	private int subCost;
@@ -54,57 +56,62 @@ public class EditDistanceCalculator {
 			prev[i] = i * (ignoreEdgeIndel ? matchCost : indelCost);
 		}
 
-		// Initialize curr as an empty array, just to make the compiler happy.
-		int[] curr = new int[0];
+		int[] curr = new int[a.size() + 1];
 
-		// System.out.print("     ");
-		// for (Object o : a) {
-		// System.out.print(o + "  ");
-		// }
-		// System.out.println("");
+		if (PRINT_GRID) {
+			System.out.print("     ");
+			for (Object o : a) {
+				System.out.print(o + "  ");
+			}
+			System.out.println("");
+		}
 
-		for (int col = 1; col < b.size() + 1; col++) {
+		for (int row = 1; row < b.size() + 1; row++) {
 			curr = new int[a.size() + 1];
 
 			// Set the first cell to be the indel cost, so we don't have to
 			// do bounds checking later.
-			curr[0] = col * indelCost;
+			curr[0] = row * indelCost;
 
 			int currInsertCost, currDeleteCost, currMatchCost;
 
-			for (int row = 1; row < a.size() + 1; row++) {
-				currMatchCost = prev[row - 1]
-						+ (a.get(row - 1).equals(b.get(col - 1)) ? matchCost
+			for (int col = 1; col < a.size() + 1; col++) {
+				currMatchCost = prev[col - 1]
+						+ (a.get(col - 1).equals(b.get(row - 1)) ? matchCost
 								: subCost);
-				currDeleteCost = prev[row] + indelCost;
-				currInsertCost = curr[row - 1] + indelCost;
+				currDeleteCost = prev[col] + indelCost;
+				currInsertCost = curr[col - 1] + indelCost;
 
-				if (ignoreEdgeIndel && col == b.size()) {
+				if (ignoreEdgeIndel && row == b.size()) {
 					currInsertCost -= indelCost;
 				}
 
-				curr[row] = Math.min(currInsertCost,
+				curr[col] = Math.min(currInsertCost,
 						Math.min(currDeleteCost, currMatchCost));
 			}
 
-			// if (col > 1) {
-			// System.out.print(b.get(col - 2) + " ");
-			// } else {
-			// System.out.print("  ");
-			// }
-			// for (int i : prev) {
-			// System.out.print(i + ", ");
-			// }
-			// System.out.println("");
+			if (PRINT_GRID) {
+				if (row > 1) {
+					System.out.print(b.get(row - 2) + " ");
+				} else {
+					System.out.print("  ");
+				}
+				for (int i : prev) {
+					System.out.print(i + ", ");
+				}
+				System.out.println("");
+			}
 
 			prev = curr;
 		}
 
-		// System.out.print(b.get(b.size() - 1) + " ");
-		// for (int i : curr) {
-		// System.out.print(i + ", ");
-		// }
-		// System.out.println("");
+		if (PRINT_GRID) {
+			System.out.print(b.get(b.size() - 1) + " ");
+			for (int i : curr) {
+				System.out.print(i + ", ");
+			}
+			System.out.println("");
+		}
 
 		return curr[a.size()];
 	}

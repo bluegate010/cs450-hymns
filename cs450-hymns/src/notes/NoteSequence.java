@@ -7,7 +7,7 @@ import java.util.List;
 import editdistance.EditDistanceCalculator;
 import fft.WAV_FFT;
 
-public class NoteSequence implements Comparable<NoteSequence> {
+public class NoteSequence {
 
 	private ArrayList<String> sequence;
 
@@ -54,8 +54,7 @@ public class NoteSequence implements Comparable<NoteSequence> {
 		return true;
 	}
 
-	@Override
-	public int compareTo(NoteSequence o) {
-		return comparator.computeAlignment(this.sequence, o.sequence);
+	public int distanceTo(NoteSequence other) {
+		return comparator.computeAlignment(this.sequence, other.sequence);
 	}
 }

@@ -7,8 +7,7 @@ import com.eatthepath.jeospatial.SpatialPoint;
 
 /**
  * <p>
- * A simple geospatial point implementation. Simple geospatial points calculate
- * distance to other points using the Haversine Formula.
+ * A simple geospatial point implementation.
  * </p>
  * 
  * @author <a href="mailto:jon.chambers@gmail.com">Jon Chambers</a>
@@ -58,6 +57,12 @@ public class SimpleSpatialPoint implements SpatialPoint {
 	}
 
 	public double getDistanceTo(double[] coords) {
+		if (this.coords.length != coords.length) {
+			throw new IllegalArgumentException(
+					"Coordinate dimensions do not match (" + this.coords.length
+							+ ", " + coords.length + ")");
+		}
+
 		double sum = 0;
 		for (int i = 0; i < coords.length; i++) {
 			sum += Math.pow(this.coords[i] - coords[i], 2);
