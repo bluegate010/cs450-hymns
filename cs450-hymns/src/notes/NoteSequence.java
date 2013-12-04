@@ -17,6 +17,8 @@ import fft.WAV_FFT;
  */
 public class NoteSequence extends ArrayList<String> {
 
+	private static final Character NOTE_DELIMITER = ',';
+
 	/**
 	 * Generated serial version UID
 	 */
@@ -40,12 +42,34 @@ public class NoteSequence extends ArrayList<String> {
 		return sequence;
 	}
 
+	public static NoteSequence fromString(String string) {
+		String[] notes = string.split(Character.toString(NOTE_DELIMITER));
+		NoteSequence sequence = new NoteSequence();
+
+		for (String note : notes) {
+			sequence.add(note);
+		}
+
+		return sequence;
+	}
+
 	public NoteSequence() {
 		super();
 	}
 
 	public int distanceTo(NoteSequence other) {
 		return comparator.computeAlignment(this, other);
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		for (String note : this) {
+			sb.append(NOTE_DELIMITER + note);
+		}
+
+		// Trim off leading comma
+		return sb.substring(1);
 	}
 
 	/**

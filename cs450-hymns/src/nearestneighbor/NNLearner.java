@@ -1,5 +1,12 @@
 package nearestneighbor;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,6 +21,10 @@ public class NNLearner {
 	public static final int DEFAULT_K = 10;
 
 	private VPTree<ClassifiedFFT> pointDatabase;
+
+	public NNLearner() {
+		pointDatabase = new VPTree<ClassifiedFFT>();
+	}
 
 	public NNLearner(Collection<ClassifiedFFT> samples) {
 		pointDatabase = new VPTree<ClassifiedFFT>(Math.max(1, samples.size()));
@@ -65,5 +76,36 @@ public class NNLearner {
 		}
 
 		return mostCommonItem;
+	}
+
+	public boolean saveLearner(String outputFilePath) {
+		try (PrintWriter writer = new PrintWriter(outputFilePath, "UTF-8")) {
+			for (ClassifiedFFT fft : pointDatabase) {
+				writer.println(fft.toString());
+			}
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean loadLearnerFromFile(String inputFilePath) {
+		pointDatabase.clear();
+
+		try (FileInputStream fstream = new FileInputStream(inputFilePath);
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						fstream))) {
+			String strLine;
+			while ((strLine = br.readLine()) != null) {
+				pointDatabase.add(ClassifiedFFT.fromString(strLine));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 	}
 }
