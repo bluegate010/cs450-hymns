@@ -70,5 +70,4 @@ public class HymnDatabase {
 
 		return closestHymnName;
 	}
-
 }

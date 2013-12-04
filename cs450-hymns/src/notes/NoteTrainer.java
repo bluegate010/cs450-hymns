@@ -19,12 +19,12 @@ public class NoteTrainer {
 
 	private static Map<String, NoteTrainer> trainers = new HashMap<>();
 
-	public static void initTrainer() {
+	public static void initDefaultTrainer() {
 		// Just call getTrainer() to get the trainer loaded.
-		getTrainer();
+		getDefaultTrainer();
 	}
 
-	public static NoteTrainer getTrainer() {
+	public static NoteTrainer getDefaultTrainer() {
 		return getTrainer(DEFAULT_TRAINING_DIR);
 	}
 

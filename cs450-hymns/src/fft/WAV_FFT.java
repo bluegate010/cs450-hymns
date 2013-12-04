@@ -101,5 +101,4 @@ public class WAV_FFT {
 
 		return value + multiple - remainder;
 	}
-
 }
