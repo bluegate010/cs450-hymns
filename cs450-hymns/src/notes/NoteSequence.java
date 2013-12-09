@@ -26,11 +26,6 @@ public class NoteSequence extends ArrayList<String> {
 
 	private static final EditDistanceCalculator comparator = new EditDistanceCalculator();
 
-	public static NoteSequence generateSequenceForWavFile(String wavFilePath) {
-		return generateSequenceForWavFile(wavFilePath,
-				NoteTrainer.getDefaultTrainer());
-	}
-
 	public static NoteSequence generateSequenceForWavFile(String wavFilePath,
 			NoteTrainer trainer) {
 		NoteSequence sequence = new NoteSequence();
@@ -69,7 +64,7 @@ public class NoteSequence extends ArrayList<String> {
 		}
 
 		// Trim off leading comma
-		return sb.substring(1);
+		return sb.length() > 0 ? sb.substring(1) : "";
 	}
 
 	/**

@@ -29,7 +29,7 @@ public class WAV_FFT {
 
 		// Calculate the number of FFTs there will be out of this WAV file
 		int numFFTs = (int) Math
-				.floor(((double) (amplitudes.length - samplesPerFFT))
+				.ceil(((double) (amplitudes.length - samplesPerFFT))
 						/ samplesPerShift);
 
 		double[][] ffts = new double[numFFTs][];

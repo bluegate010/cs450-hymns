@@ -13,25 +13,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import notes.NoteSequence;
+import notes.NoteTrainer;
 import utils.FileUtils;
 
 public class HymnDatabase {
 
 	private static final Character DATABASE_FILE_FIELD_DELMIITER = ';';
 
-	public static final String DEFAULT_HYMN_DATABSE_DIR = "audio/hymns/";
+	private static final boolean DEBUG = true;
 
+	private final String databaseDir;
 	private Map<String, NoteSequence> database;
 	private static Map<String, HymnDatabase> databases = new HashMap<>();
-
-	public static void loadDefaultDatabase() {
-		// Just call getDatabase() to get it loaded.
-		getDefaultDatabase();
-	}
-
-	public static HymnDatabase getDefaultDatabase() {
-		return getDatabase(DEFAULT_HYMN_DATABSE_DIR);
-	}
 
 	public static HymnDatabase getDatabase(String databaseDir) {
 		if (!databases.containsKey(databaseDir)) {
@@ -43,20 +36,29 @@ public class HymnDatabase {
 	}
 
 	private HymnDatabase(String databaseDir) {
+		this.databaseDir = databaseDir;
 		database = new HashMap<>();
-		loadDatabase(databaseDir);
 	}
 
-	private void loadDatabase(String databaseDir) {
+	private HymnDatabase() {
+		this.databaseDir = "";
+		database = new HashMap<>();
+	}
+
+	public void initializeDatabase(NoteTrainer trainer) {
 		database.clear();
 
 		File[] hymnFiles = FileUtils.getWavFiles(databaseDir);
 
 		for (File hymnFile : hymnFiles) {
 			String hymnName = hymnFile.getName();
-			NoteSequence sequence = NoteSequence
-					.generateSequenceForWavFile(hymnFile.getAbsolutePath());
+			NoteSequence sequence = NoteSequence.generateSequenceForWavFile(
+					hymnFile.getAbsolutePath(), trainer);
 
+			if (DEBUG) {
+				System.out.println("Loaded hymn " + hymnName + ", sequence: "
+						+ sequence);
+			}
 			database.put(hymnName, sequence);
 		}
 	}
@@ -103,9 +105,13 @@ public class HymnDatabase {
 		return true;
 	}
 
-	public String matchHymn(String sampleFilePath) {
-		NoteSequence sampleSequence = NoteSequence
-				.generateSequenceForWavFile(sampleFilePath);
+	public String matchHymn(String sampleFilePath, NoteTrainer trainer) {
+		if (DEBUG) {
+			System.out.format("Generating sequence for sample file %s...\n",
+					sampleFilePath);
+		}
+		NoteSequence sampleSequence = NoteSequence.generateSequenceForWavFile(
+				sampleFilePath, trainer);
 
 		int minSimilarity = Integer.MAX_VALUE;
 		String closestHymnName = null;
@@ -114,13 +120,61 @@ public class HymnDatabase {
 			String currentHymnName = entry.getKey();
 			NoteSequence currentSequence = entry.getValue();
 
+			if (DEBUG) {
+				System.out.format(
+						"Computing similarity between sample and hymn '%s': ",
+						currentHymnName);
+			}
 			int similarity = currentSequence.distanceTo(sampleSequence);
+
+			if (DEBUG) {
+				System.out.println(similarity);
+			}
+
 			if (minSimilarity > similarity) {
 				minSimilarity = similarity;
 				closestHymnName = currentHymnName;
 			}
 		}
 
+		if (DEBUG) {
+			if (closestHymnName != null) {
+				System.out.format("Closest hymn was '%s' with score %d\n",
+						closestHymnName, minSimilarity);
+			} else {
+				System.out.println("No hymn found!");
+			}
+		}
+
 		return closestHymnName;
+	}
+
+	private static HymnDatabase fileBasedDatabase = null;
+	private static NoteTrainer fileBasedTrainer = null;
+
+	public static void initializeDatabase(String databaseFilePath,
+			String trainerFilePath) {
+		fileBasedDatabase = new HymnDatabase();
+		fileBasedTrainer = new NoteTrainer();
+
+		fileBasedDatabase.loadDatabaseFromFile(databaseFilePath);
+		fileBasedTrainer.loadTrainerFromFile(trainerFilePath);
+	}
+
+	public static String matchHymn(String sampleFilePath) {
+		if (fileBasedDatabase == null || fileBasedTrainer == null) {
+			return null;
+		}
+
+		return fileBasedDatabase.matchHymn(sampleFilePath, fileBasedTrainer);
+	}
+
+	public static void main(String... args) {
+		String databaseFilePath = "/Users/jandersen/Dropbox/Classes/Senior/Semester 2/CS 450/Hymn Learner/database.txt";
+		String trainerFilePath = "/Users/jandersen/Dropbox/Classes/Senior/Semester 2/CS 450/Hymn Learner/learner.txt";
+		String sampleFilePath = "/Users/jandersen/Desktop/test-hymn327.wav";
+
+		initializeDatabase(databaseFilePath, trainerFilePath);
+		System.out.println(matchHymn(sampleFilePath));
 	}
 }

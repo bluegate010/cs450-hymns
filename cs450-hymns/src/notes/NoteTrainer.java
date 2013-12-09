@@ -13,20 +13,9 @@ import fft.WAV_FFT;
 
 public class NoteTrainer {
 
-	public static final String DEFAULT_TRAINING_DIR = "audio/training/";
-
 	private NNLearner learner;
 
 	private static Map<String, NoteTrainer> trainers = new HashMap<>();
-
-	public static void initDefaultTrainer() {
-		// Just call getTrainer() to get the trainer loaded.
-		getDefaultTrainer();
-	}
-
-	public static NoteTrainer getDefaultTrainer() {
-		return getTrainer(DEFAULT_TRAINING_DIR);
-	}
 
 	public static NoteTrainer getTrainer(String trainingDir) {
 		if (!trainers.containsKey(trainingDir)) {
@@ -37,17 +26,29 @@ public class NoteTrainer {
 		return trainers.get(trainingDir);
 	}
 
-	private NoteTrainer(String dirPath) {
+	public NoteTrainer(String dirPath) {
 		loadTrainingData(dirPath);
+	}
+
+	public NoteTrainer() {
+		learner = new NNLearner();
 	}
 
 	private void loadTrainingData(String dirPath) {
 		File[] wavFiles = FileUtils.getWavFiles(dirPath);
 		List<ClassifiedFFT> ffts = new ArrayList<>();
 
-		for (File wavFile : wavFiles) {
-			String noteName = wavFile.getName().toUpperCase();
-			ffts.addAll(loadFFTs(wavFile, noteName));
+		if (wavFiles != null) {
+			for (File wavFile : wavFiles) {
+				String noteName = wavFile.getName().toUpperCase();
+
+				int lastDotIndex = noteName.lastIndexOf(".");
+				if (lastDotIndex > -1) {
+					noteName = noteName.substring(0, lastDotIndex);
+				}
+
+				ffts.addAll(loadFFTs(wavFile, noteName));
+			}
 		}
 
 		learner = new NNLearner(ffts);
@@ -68,4 +69,11 @@ public class NoteTrainer {
 		return classifiedFFTs;
 	}
 
+	public boolean saveTrainer(String outputFilePath) {
+		return learner.saveLearner(outputFilePath);
+	}
+
+	public boolean loadTrainerFromFile(String inputFilePath) {
+		return learner.loadLearnerFromFile(inputFilePath);
+	}
 }
