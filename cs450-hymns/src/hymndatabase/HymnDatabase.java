@@ -170,8 +170,8 @@ public class HymnDatabase {
 	}
 
 	public static void main(String... args) {
-		String databaseFilePath = "/Users/jandersen/Dropbox/Classes/Senior/Semester 2/CS 450/Hymn Learner/database.txt";
-		String trainerFilePath = "/Users/jandersen/Dropbox/Classes/Senior/Semester 2/CS 450/Hymn Learner/learner.txt";
+		String databaseFilePath = "src/database.txt";
+		String trainerFilePath = "src/learner.txt";
 		String sampleFilePath = "/Users/jandersen/Desktop/test-hymn327.wav";
 
 		initializeDatabase(databaseFilePath, trainerFilePath);
